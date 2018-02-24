@@ -13,15 +13,21 @@ class Rabbit extends Component {
     this.state = defaultState
   }
   
+  componentDidMount() {
+    setInterval(() => this.fitnessDecay(), 1000);
+  }
+
+  fitnessDecay() {
+    this.setState((prev) => {
+      return ({fitness: prev.fitness-1});
+    })
+  }
 
   render () {
     return (
     <div>
       {this.state.fitness}
       🐰
-      {this.state.name}
-      {this.state.gender}
-      {this.state.position}
     </div>);
   }
 }

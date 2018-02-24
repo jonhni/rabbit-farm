@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Rabbit from './entities/Rabbit';
 import Grid from './Grid';
-
+import FarmStore, { FarmContext } from './Context/FarmContext';
 class App extends Component {
   render() {
     return (
@@ -12,14 +12,10 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div className="App-intro">
-          {/* <Rabbit position={[0,0]}/> 
-          <Rabbit position={[1,2]}/> 
-          <Rabbit position={[2,3]}/> 
-          <Rabbit position={[1,3]}/> 
-          <Rabbit position={[4,4]}/>  */}
-        </div>
-        <Grid />
+        <div className="App-intro" />
+        <FarmStore>
+          <Grid/>
+        </FarmStore>
       </div>
     );
   }
