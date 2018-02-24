@@ -12,21 +12,21 @@ export default class Grid extends Component {
      for(let i = 0; i <= size; i++ ) {
         grid.push(this.getRow(i, size))
      }
-    return <table>{grid}</table>; 
+    return <table><tbody>{grid}</tbody></table>; 
   }
 
   getRow = (rowNumber, size) => {
     const cells = [];
     
     for (let i = 0; i <= size; i++ ) {
-      cells.push(<td><Cell position={{x: rowNumber, y: i}}/></td>)
+      cells.push(<td key={`${rowNumber}-${i}`}><Cell position={{x: rowNumber, y: i}}/></td>)
     }
-    return <tr>{cells}</tr>
+    return <tr key={`row-${rowNumber}`}>{cells}</tr>
   }
 
   render () {
     return (
-      <div>
+      <div className='grid'>
         {this.getGrid(4)}
       </div>
     )

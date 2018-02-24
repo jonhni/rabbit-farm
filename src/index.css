@@ -5,7 +5,12 @@ body {
 }
 
 .cell {
-  background-color: red;
-  width: 20px;
-  height: 20px;
+  background-color: teal;
+  width: 100px;
+  height: 100px;
+}
+
+.grid {
+  margin: 0 auto;
+  width: 522px;
 }
