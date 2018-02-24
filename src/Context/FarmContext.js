@@ -36,7 +36,7 @@ export default class FarmStore extends Component {
           positions: this.state.positions
         }}
       >
-        <button onClick={this.addRabbit}>Add Rabbit </button>
+        <button onClick={this.addRabbit}>Add Rabbit</button>
         {this.props.children}
       </FarmContext.Provider>
     );
