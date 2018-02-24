@@ -14,7 +14,7 @@ class App extends Component {
         </header>
         <div className="App-intro" />
         <FarmStore>
-          <Grid/>
+          <Grid />
         </FarmStore>
       </div>
     );

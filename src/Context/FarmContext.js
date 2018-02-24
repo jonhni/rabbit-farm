@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const defaultState = {
-  rabbits: ['0,1', '2,3', '3,4'],
+  rabbits: [],
   carrots: 0
 };
 
@@ -12,18 +12,33 @@ export default class FarmStore extends Component {
 
   addRabbit = () => {
     const rabbits = this.state.rabbits;
-    
-    this.setState({ rabbits: [...rabbits, '0,4'] });
+    const rabbit = {
+      id: Date.now(),
+      position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
+      name: `Bob-${Date.now()}`,
+      fitness: Math.floor(Math.random() * 100),
+      gender: Math.round(Math.random()) > 0 ? 'Boi' : 'Gurrl',
+    };
+    this.setState({ rabbits: [...rabbits, rabbit] });
   };
 
-  updatePosition = (coordinate, inc) => {
-    const positions = { ...this.state.positions };
-    positions[coordinate] = inc
-      ? positions[coordinate] + 1
-      : positions[coordinate] - 1;
-    this.setSate({
-      positions
-    });
+  updatePosition = (position, id) => {
+    const rabbits = this.state.rabbits;
+    const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
+    const index = this.state.rabbits.indexOf(rabbit);
+    const newPos = [position[0], position[1] > 3 ? 0 : position[1] + 1];
+    rabbit.position = `${newPos[0]},${newPos[1]}`;
+    rabbits[index] = rabbit;
+    this.setState({ rabbits });
+  };
+
+  updateDecay = (id) => {
+    const rabbits = this.state.rabbits;
+    const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
+    const index = this.state.rabbits.indexOf(rabbit);
+    rabbit.fitness -= 1;
+    rabbits[index] = rabbit;
+    this.setState({ rabbits });
   };
 
   render() {
@@ -32,7 +47,8 @@ export default class FarmStore extends Component {
         value={{
           rabbits: this.state.rabbits,
           carrots: this.state.carrots,
-          updatePosition: this.state.updatePosition,
+          updatePosition: this.updatePosition,
+          updateDecay: this.updateDecay,
           positions: this.state.positions
         }}
       >

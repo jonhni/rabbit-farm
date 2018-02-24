@@ -4,7 +4,6 @@ import Cell from './Cell';
 export default class Grid extends Component {
   constructor(props) {
     super(props);
-    this.state = {rabbits: this.props.rabbits};
   }
 
   getGrid(size) {
@@ -25,7 +24,7 @@ export default class Grid extends Component {
     for (let i = 0; i <= size; i++) {
       cells.push(
         <td key={`${rowNumber}-${i}`}>
-          <Cell rabbits={this.state.rabbits} position={{ x: rowNumber, y: i }} />
+          <Cell position={{ x: rowNumber, y: i }} />
         </td>
       );
     }

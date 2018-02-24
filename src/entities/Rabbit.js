@@ -1,34 +1,43 @@
 import React, { Component } from 'react';
 
-
 class Rabbit extends Component {
   constructor(props) {
-    super(props)
-    const defaultState = {
-      name: `Bob-${Date.now()}`,
-      fitness: Math.floor(Math.random() * 100),
-      gender: Math.round(Math.random()) > 0 ? 'Boi' : 'Gurrl',
-      position: this.props.position
-    }
-    this.state = defaultState
+    super(props); 
+    this.state = {rabbit: props.rabbit, position: props.position}
   }
-  
+
   componentDidMount() {
-    setInterval(() => this.fitnessDecay(), 1000);
+    const tick = setInterval(() => this.updateSimulationState(), 1000);
+
+    this.setState({ tick });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.tick);
+  }
+
+  updateSimulationState() {
+    this.fitnessDecay();
+    this.move();
+  }
+
+  move() {
+    this.props.updatePosition(this.state.position, this.state.rabbit.id);
+
   }
 
   fitnessDecay() {
-    this.setState((prev) => {
-      return ({fitness: prev.fitness-1});
-    })
+    this.props.updateDecay(this.state.rabbit.id);
   }
 
-  render () {
+  render() {
+    const { rabbit } = this.props;
     return (
-    <div>
-      {this.state.fitness}
-      🐰
-    </div>);
+      <div>
+        {this.state.rabbit.fitness}
+        🐰
+      </div>
+    );
   }
 }
 
