@@ -5,6 +5,7 @@ export default class Grid extends Component {
   
   constructor() {
     super()
+    this.rabbits = ['0,0', '4,3'];
   }
 
   getGrid(size) {

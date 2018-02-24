@@ -21,7 +21,7 @@ export default class Cell extends Component {
     return (
     <div className='cell'>
         {/* {this.state.rabbit ? <Rabbit position={[this.x,this.y]} /> : null} */}
-        {this.props.position.x}
+        {this.props.position.x},
         {this.props.position.y}
     </div>
     )
