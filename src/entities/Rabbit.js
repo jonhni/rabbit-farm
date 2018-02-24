@@ -31,7 +31,6 @@ class Rabbit extends Component {
   }
 
   render() {
-    const { rabbit } = this.props;
     return (
       <div>
         {this.state.rabbit.fitness}
