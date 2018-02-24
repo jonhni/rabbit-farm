@@ -16,8 +16,8 @@ export default class FarmStore extends Component {
       id: Date.now(),
       position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
       name: `Bob-${Date.now()}`,
-      fitness: Math.floor(Math.random() * 100),
-      gender: Math.round(Math.random()) > 0 ? 'Boi' : 'Gurrl',
+      fitness: Math.floor(Math.random() * 50),
+      gender: Math.round(Math.random())
     };
     this.setState({ rabbits: [...rabbits, rabbit] });
   };
@@ -37,9 +37,21 @@ export default class FarmStore extends Component {
     const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
     const index = this.state.rabbits.indexOf(rabbit);
     rabbit.fitness -= 1;
-    rabbits[index] = rabbit;
-    this.setState({ rabbits });
+    if(rabbit.fitness <= 0 ) {
+      this.killRabbit(rabbit)
+    } else {
+      rabbits[index] = rabbit;
+      this.setState({ rabbits });
+    }
+
   };
+
+  killRabbit = (rabbit) => {
+    const rabbits = this.state.rabbits;
+    var indexOfDeadRabbit = rabbits.indexOf(rabbit)
+    rabbits.splice(indexOfDeadRabbit, 1);
+    this.setState({rabbits});
+  }
 
   render() {
     return (

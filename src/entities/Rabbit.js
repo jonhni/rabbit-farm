@@ -17,8 +17,8 @@ class Rabbit extends Component {
   }
 
   updateSimulationState() {
-    this.fitnessDecay();
     this.move();
+    this.fitnessDecay();
   }
 
   move() {
@@ -34,6 +34,7 @@ class Rabbit extends Component {
     return (
       <div>
         {this.state.rabbit.fitness}
+        {this.props.rabbit.gender > 0.5 ? "♂" : "♀"}
         🐰
       </div>
     );

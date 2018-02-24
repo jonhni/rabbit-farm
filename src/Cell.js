@@ -38,8 +38,8 @@ export default class Cell extends Component {
                   />
                 );
               })}
-              {this.props.position.x},
-              {this.props.position.y}
+              {/* {this.props.position.x},
+              {this.props.position.y} */}
             </div>
           );
         }}
