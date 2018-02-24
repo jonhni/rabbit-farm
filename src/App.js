@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Rabbit from './entities/Rabbit';
+import Grid from './Grid';
 
 class App extends Component {
   render() {
@@ -10,9 +12,14 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-intro">
+          {/* <Rabbit position={[0,0]}/> 
+          <Rabbit position={[1,2]}/> 
+          <Rabbit position={[2,3]}/> 
+          <Rabbit position={[1,3]}/> 
+          <Rabbit position={[4,4]}/>  */}
+        </div>
+        <Grid />
       </div>
     );
   }
