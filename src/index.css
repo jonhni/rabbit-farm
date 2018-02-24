@@ -14,3 +14,18 @@ body {
   margin: 0 auto;
   width: 522px;
 }
+
+.rabbit {
+
+}
+.rabbit-head {
+  font-size: 3em;
+}
+.rabbit-gender {
+  margin-top: -10%;
+  display: block;
+}
+.rabbit-fitness {
+  display: block;
+  
+}

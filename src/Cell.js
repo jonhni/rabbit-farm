@@ -22,6 +22,7 @@ export default class Cell extends Component {
   };
 
   render() {
+
     return (
       <FarmContext.Consumer>
         {({ rabbits, carrots, updatePosition, updateDecay }) => {

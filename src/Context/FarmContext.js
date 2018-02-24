@@ -16,7 +16,7 @@ export default class FarmStore extends Component {
       id: Date.now(),
       position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
       name: `Bob-${Date.now()}`,
-      fitness: Math.floor(Math.random() * 50),
+      fitness: Math.floor(Math.random() * 10),
       gender: Math.round(Math.random())
     };
     this.setState({ rabbits: [...rabbits, rabbit] });
@@ -37,6 +37,11 @@ export default class FarmStore extends Component {
     const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
     const index = this.state.rabbits.indexOf(rabbit);
     rabbit.fitness -= 1;
+
+    // Kanskje heller sette en props dying/dead 
+    // så kan vi vise en gravstein eller scull i 0.5 sek før den fjernes
+    // ha en funksjon remove dead, som fjerner alle de døde
+
     if(rabbit.fitness <= 0 ) {
       this.killRabbit(rabbit)
     } else {
