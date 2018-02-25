@@ -59,7 +59,8 @@ const rabbits = [
 "Fredrik O.",
 "Fredrik G.",
 "The Drolshammer",
-"Elizabeth"];
+"Elizabeth",
+"Unge Rathe"];
 
 export const generateNewName = () => {
   return rabbits[Math.floor(Math.random() * rabbits.length)];
