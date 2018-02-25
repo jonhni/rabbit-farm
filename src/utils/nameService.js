@@ -22,7 +22,7 @@ const rabbits = [
 "Øyvind",
 "Øystein",
 "Ørjan K.",
-"The Bucket",
+"Bøtta The Buck",
 "Ove",
 "Ole Martin",
 "NK-47",
