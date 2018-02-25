@@ -49,7 +49,7 @@ const rabbits = [
 "Ingeborg",
 "Henrik",
 "Henning",
-"Helene,",
+"Helene",
 "Husbjørn",
 "Håkon T.",
 "Håkon N.",
