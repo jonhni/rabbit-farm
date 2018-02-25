@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {FARM_SIZE} from  '../constants';
 const defaultState = {
   rabbits: [],
   carrots: 0
@@ -16,7 +16,7 @@ export default class FarmStore extends Component {
       id: Date.now(),
       position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
       name: `Bob-${Date.now()}`,
-      fitness: Math.floor(Math.random() * 10),
+      fitness: Math.floor(Math.random() * 100),
       gender: Math.round(Math.random())
     };
     this.setState({ rabbits: [...rabbits, rabbit] });
@@ -26,11 +26,52 @@ export default class FarmStore extends Component {
     const rabbits = this.state.rabbits;
     const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
     const index = this.state.rabbits.indexOf(rabbit);
-    const newPos = [position[0], position[1] > 3 ? 0 : position[1] + 1];
+    const newPos = this.getNewPosition(position);
     rabbit.position = `${newPos[0]},${newPos[1]}`;
     rabbits[index] = rabbit;
     this.setState({ rabbits });
   };
+
+
+
+  getNewPosition(position) {
+
+     const move = Math.floor(Math.random() * 4);
+     const POSSIBLE_MOVES = ['N','E','S','W'];
+     const direction = POSSIBLE_MOVES[move];
+     if(direction === 'N') {
+       // Out of bounds north, move south
+       if (position[0] === 0) {
+         return [1, position[1]];
+       } 
+       return [position[0] -1, position[1]];
+     }
+
+     if(direction === 'E') {
+       // Out of bounds east, move west
+      if(position[1] === FARM_SIZE) {
+        return [position[0], position[1] - 1];
+      }
+      return [position[0], position[1] + 1];
+     }
+
+     if(direction === 'S') {
+       // Out of bounds south, move north
+       if(position[0] === FARM_SIZE) {
+        return [FARM_SIZE - 1, position[1]];
+       }
+       return [position[0] + 1, position[1]];
+     }
+
+     if(direction == 'W') {
+       if(position[1] === 0) {
+        // Out of bounds west, move east
+        return [position[0], 1];
+       }
+       return [position[0], position[1] - 1];
+
+     }
+  }
 
   updateDecay = (id) => {
     const rabbits = this.state.rabbits;

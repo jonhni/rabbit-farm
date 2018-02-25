@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Cell from './Cell';
-
+import { FARM_SIZE } from './constants';
 export default class Grid extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +32,6 @@ export default class Grid extends Component {
   };
 
   render() {
-    return <div className="grid">{this.getGrid(4)}</div>;
+    return <div className="grid">{this.getGrid(FARM_SIZE)}</div>;
   }
 }

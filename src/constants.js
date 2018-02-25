@@ -1,0 +1,1 @@
+export const FARM_SIZE = 4;
