@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Rabbit from './entities/Rabbit';
 import Grid from './Grid';
-import FarmStore, { FarmContext } from './Context/FarmContext';
+import FarmStore from './Context/FarmContext';
 class App extends Component {
   render() {
     return (

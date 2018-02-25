@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import Cell from './Cell';
 import { FARM_SIZE } from './constants';
 export default class Grid extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   getGrid(size) {
     const grid = [];
     for (let i = 0; i <= size; i++) {
