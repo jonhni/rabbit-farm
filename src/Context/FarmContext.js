@@ -15,7 +15,7 @@ export default class FarmStore extends Component {
     const rabbits = this.state.rabbits;
     const rabbit = {
       id: Date.now(),
-      position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
+      position: `${Math.floor(Math.random() * FARM_SIZE)},${Math.floor(Math.random() * FARM_SIZE)}`,
       name: generateNewName(),
       fitness: Math.floor(Math.random() * 100),
       gender: Math.round(Math.random())
@@ -111,7 +111,7 @@ export default class FarmStore extends Component {
           positions: this.state.positions
         }}
       >
-        <button onClick={this.addRabbit}>Legg til</button>
+        <button className="btn-legg-til"onClick={this.addRabbit}>Legg til</button>
         {this.props.children}
       </FarmContext.Provider>
     );

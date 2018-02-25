@@ -3,8 +3,16 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
+.btn-legg-til {
+  width: 618px;
+  border-radius: 3px;
+  background-color: teal;
+  height: 40px;
+  font-size: 1.2em;
+  color:#d3d5c2
+}
 .cell {
+  border-radius: 3px;
   background-color:#a6ab8482;
   width: 100px;
   height: 100px;
@@ -12,11 +20,14 @@ body {
 
 .grid {
   margin: 0 auto;
-  width: 522px;
+  width: 625px;
 }
 
 .rabbit {
 
+}
+.snack {
+  font-size: 2em;
 }
 .rabbit-head {
   font-size: 3em;

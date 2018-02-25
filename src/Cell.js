@@ -7,7 +7,7 @@ export default class Cell extends Component {
     super(props);
     this.x = props.position.x;
     this.y = props.position.y;
-    this.hasSnack = (props.position.x === 1 && props.position.y == 1) || (props.position.x === 4 && props.position.y == 3) || (props.position.x === 2 && props.position.y == 0); 
+    this.hasSnack = (props.position.x === 1 && props.position.y == 1) || (props.position.x === 4 && props.position.y == 3) || (props.position.x === 2 && props.position.y == 0) || (props.position.x === 5 && props.position.y == 0) || (props.position.x === 3 && props.position.y == 5) || (props.position.x === 4 && props.position.y == 0) || (props.position.x === 0 && props.position.y == 5);
   }
 
   state = { rabbits: [] };
@@ -33,7 +33,7 @@ export default class Cell extends Component {
         {({ rabbits, carrots, updatePosition, updateDecay }) => {
           return (
             <div className="cell">
-            {this.hasSnack && '🍔'}
+            {this.hasSnack && <span className="snack">🍔</span>}
               {this.isOccupied(rabbits).map(rabbit => {
                 return (
                   <Rabbit
