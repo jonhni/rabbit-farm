@@ -60,68 +60,7 @@ const rabbits = [
 "Fredrik G.",
 "The Drolshammer",
 "Elizabeth"];
-// const rabbits = [
-  
-  
-  
-  
-  
-  
-//   "Therese",
-  
-  
-//   "Lau",
-  
-  
-  
-//   "Skjalg",
-  
-  
-//   "Sara",
-//   "Rune",
-  
-  
-  
-  
-  
-//   "Bøtta The Buck",
-  
-//   "Ole Martin",
-//   "NK-47",
-  
-  
-  
-//   "Martin",
-  
-//   "Marie",
-  
-  
-  
-//   "Kjetil",
-  
-  
-  
-  
-  
-//   "Jon F.",
-//   "Jenny",
-  
-  
-  
-//   "Ingeborg",
-  
-  
-//   "Helene",
-//   "Husbjørn",
-  
-  
-  
-  
-  
-  
 
-//   "The Drolshammer",
-//   ];
 export const generateNewName = () => {
   return rabbits[Math.floor(Math.random() * rabbits.length)];
 }
