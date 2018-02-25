@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {FARM_SIZE} from  '../constants';
+import { generateNewName } from '../utils/nameService';
 const defaultState = {
   rabbits: [],
   carrots: 0
@@ -15,7 +16,7 @@ export default class FarmStore extends Component {
     const rabbit = {
       id: Date.now(),
       position: `${Math.floor(Math.random() * 4)},${Math.floor(Math.random() * 4)}`,
-      name: `Bob-${Date.now()}`,
+      name: generateNewName(),
       fitness: Math.floor(Math.random() * 100),
       gender: Math.round(Math.random())
     };
@@ -63,7 +64,7 @@ export default class FarmStore extends Component {
        return [position[0] + 1, position[1]];
      }
 
-     if(direction == 'W') {
+     if(direction === 'W') {
        if(position[1] === 0) {
         // Out of bounds west, move east
         return [position[0], 1];
@@ -110,7 +111,7 @@ export default class FarmStore extends Component {
           positions: this.state.positions
         }}
       >
-        <button onClick={this.addRabbit}>Add Rabbit</button>
+        <button onClick={this.addRabbit}>Legg til</button>
         {this.props.children}
       </FarmContext.Provider>
     );

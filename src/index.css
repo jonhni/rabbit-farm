@@ -5,7 +5,7 @@ body {
 }
 
 .cell {
-  background-color: teal;
+  background-color:#a6ab8482;
   width: 100px;
   height: 100px;
 }
@@ -21,11 +21,19 @@ body {
 .rabbit-head {
   font-size: 3em;
 }
+.rabbit-name-female {
+  display: block;
+  color:#ff1cea;
+}
+.rabbit-name-male {
+  display: block;
+  color: blue;
+}
 .rabbit-gender {
   margin-top: -10%;
   display: block;
 }
 .rabbit-fitness {
   display: block;
-  
+  margin-top: -15%;
 }

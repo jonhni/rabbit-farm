@@ -31,10 +31,16 @@ class Rabbit extends Component {
   }
 
   render() {
+    console.log(this.props);
+    const male = this.props.rabbit.gender > 0.5;
+    // "♂" : "♀"
+
     return (
       <div className="rabbit">
-        <span className="rabbit-head">🐰</span>
-        <span className="rabbit-gender">{this.props.rabbit.gender > 0.5 ? "♂" : "♀"}</span>
+        <span className={male ? "rabbit-name-male":"rabbit-name-female" }>
+        {this.props.rabbit.name}
+        </span>
+        <span className="rabbit-head">🐐</span>
         <span className="rabbit-fitness">{this.state.rabbit.fitness}❤️</span>
       </div>
     );
