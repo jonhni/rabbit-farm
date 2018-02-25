@@ -31,7 +31,6 @@ class Rabbit extends Component {
   }
 
   render() {
-    console.log(this.props);
     const male = this.props.rabbit.gender > 0.5;
     // "♂" : "♀"
 
