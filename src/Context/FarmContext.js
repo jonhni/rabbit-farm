@@ -147,7 +147,6 @@ export default class FarmStore extends Component {
       >
         <ReactModal
           isOpen={this.state.fight}
-          closeTimeoutMS={500}
           onAfterOpen={this.initiateFightTest}
           onRequestClose={this.stopFight}
           ariaHideApp={false}
