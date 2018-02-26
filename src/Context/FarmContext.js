@@ -33,17 +33,26 @@ export default class FarmStore extends Component {
   };
 
   checkColission(rabbits) {
+    //er en bug her som gjør at modalen ikke lukkes hvis det skjer to fights rett etter hverandre
+    //sikkert ikke så stress å fikse
+    //bare implementert fight
     const positionObject = {};
-    const positions = rabbits.forEach(x => {
-      if (!positionObject[x.position]) {
-        positionObject[x.position] = [x.id];
+    const positions = rabbits.forEach(rabbit => {
+      if (!positionObject[rabbit.position]) {
+        positionObject[rabbit.position] = rabbit;
       } else {
-        positionObject[x.position] = [...positionObject[x.position], x.id];
-        console.log('FIGHT BETWEEN', positionObject[x.position]);
-        //må gjøre noe så en dør her
         this.startFight();
+        const looser = this.decideLooser(
+          positionObject[rabbit.position],
+          rabbit
+        );
+        this.killRabbit(looser);
       }
     });
+  }
+
+  decideLooser(rabbit1, rabbit2) {
+    return Math.random() < 0.5 ? rabbit1 : rabbit2;
   }
 
   getNewPosition(position) {
@@ -87,17 +96,19 @@ export default class FarmStore extends Component {
     const rabbits = this.state.rabbits;
     const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
     const index = this.state.rabbits.indexOf(rabbit);
-    rabbit.fitness -= 1;
+    if (rabbit) {
+      rabbit.fitness -= 1;
 
-    // Kanskje heller sette en props dying/dead
-    // så kan vi vise en gravstein eller scull i 0.5 sek før den fjernes
-    // ha en funksjon remove dead, som fjerner alle de døde
+      // Kanskje heller sette en props dying/dead
+      // så kan vi vise en gravstein eller scull i 0.5 sek før den fjernes
+      // ha en funksjon remove dead, som fjerner alle de døde
 
-    if (rabbit.fitness <= 0) {
-      this.killRabbit(rabbit);
-    } else {
-      rabbits[index] = rabbit;
-      this.setState({ rabbits });
+      if (rabbit.fitness <= 0) {
+        this.killRabbit(rabbit);
+      } else {
+        rabbits[index] = rabbit;
+        this.setState({ rabbits });
+      }
     }
   };
 
