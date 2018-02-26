@@ -33,17 +33,14 @@ export default class FarmStore extends Component {
   };
 
   checkColission(rabbits) {
-    //er en bug her som gjør at modalen ikke lukkes hvis det skjer to fights rett etter hverandre
-    //sikkert ikke så stress å fikse
-    //bare implementert fight
-    const positionObject = {};
-    const positions = rabbits.forEach(rabbit => {
-      if (!positionObject[rabbit.position]) {
-        positionObject[rabbit.position] = rabbit;
+    const positions = {};
+    rabbits.forEach(rabbit => {
+      if (!positions[rabbit.position]) {
+        positions[rabbit.position] = rabbit;
       } else {
         this.startFight();
         const looser = this.decideLooser(
-          positionObject[rabbit.position],
+          positions[rabbit.position],
           rabbit
         );
         this.killRabbit(looser);
