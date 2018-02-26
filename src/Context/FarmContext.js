@@ -28,8 +28,23 @@ export default class FarmStore extends Component {
     const newPos = this.getNewPosition(position);
     rabbit.position = `${newPos[0]},${newPos[1]}`;
     rabbits[index] = rabbit;
+    this.checkColission(rabbits);
     this.setState({ rabbits });
   };
+
+  checkColission(rabbits) {
+    const positionObject = {};
+    const positions = rabbits.forEach(x => {
+      if (!positionObject[x.position]) {
+        positionObject[x.position] = [x.id];
+      } else {
+        positionObject[x.position] = [...positionObject[x.position], x.id];
+        console.log('FIGHT BETWEEN', positionObject[x.position]);
+        //må gjøre noe så en dør her
+        this.startFight();
+      }
+    });
+  }
 
   getNewPosition(position) {
     const move = Math.floor(Math.random() * 4);
@@ -103,8 +118,8 @@ export default class FarmStore extends Component {
   };
 
   initiateFightTest = () => {
-    setTimeout(() => this.stopFight(), 3000)
-  }
+    setTimeout(() => this.stopFight(), 3000);
+  };
 
   render() {
     return (
@@ -129,7 +144,7 @@ export default class FarmStore extends Component {
           <h1>MOORTAL KOMBAT</h1>
           <h2>current rabbits in simulation:</h2>
           {this.state.rabbits.map(rabbit => {
-            return <h3>{rabbit.name}</h3>
+            return <h3 key={rabbit.id}>{rabbit.name}</h3>;
           })}
         </ReactModal>
         <button className="btn-legg-til" onClick={this.addRabbit}>
