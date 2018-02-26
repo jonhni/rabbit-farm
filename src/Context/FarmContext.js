@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FARM_SIZE } from '../constants';
 import { rabbits } from '../utils/rabbitGenerator';
+import ReactModal from 'react-modal';
 const defaultState = {
   rabbits: [],
   carrots: 0,
@@ -16,6 +17,7 @@ export default class FarmStore extends Component {
   addRabbit = () => {
     const rabbits = this.state.rabbits;
     const rabbit = this.rabbitGenerator.next().value;
+
     this.setState({ rabbits: [...rabbits, rabbit] });
   };
 
@@ -93,11 +95,16 @@ export default class FarmStore extends Component {
 
   startFight = () => {
     this.setState({ fight: true });
+    //her må vi ta inn hvem som skal sloss og kanskje sette på state så modalen kan jobbe med infoen?
   };
 
   stopFight = () => {
     this.setState({ fight: false });
   };
+
+  initiateFightTest = () => {
+    setTimeout(() => this.stopFight(), 3000)
+  }
 
   render() {
     return (
@@ -109,9 +116,22 @@ export default class FarmStore extends Component {
           updatePosition: this.updatePosition,
           updateDecay: this.updateDecay,
           positions: this.state.positions,
-          killRabbit: this.killRabbit,
+          killRabbit: this.killRabbit
         }}
       >
+        <ReactModal
+          isOpen={this.state.fight}
+          closeTimeoutMS={500}
+          onAfterOpen={this.initiateFightTest}
+          onRequestClose={this.stopFight}
+          ariaHideApp={false}
+        >
+          <h1>MOORTAL KOMBAT</h1>
+          <h2>current rabbits in simulation:</h2>
+          {this.state.rabbits.map(rabbit => {
+            return <h3>{rabbit.name}</h3>
+          })}
+        </ReactModal>
         <button className="btn-legg-til" onClick={this.addRabbit}>
           Legg til
         </button>
