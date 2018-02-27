@@ -1,1 +1,1 @@
-export const FARM_SIZE = 5;
+export const FARM_SIZE = 4;

@@ -7,17 +7,32 @@ export default class Cell extends Component {
     super(props);
     this.x = props.position.x;
     this.y = props.position.y;
-    this.hasSnack = (props.position.x === 1 && props.position.y === 1) || (props.position.x === 4 && props.position.y === 3) || (props.position.x === 2 && props.position.y === 0) || (props.position.x === 5 && props.position.y === 0) || (props.position.x === 3 && props.position.y === 5) || (props.position.x === 4 && props.position.y === 0) || (props.position.x === 0 && props.position.y === 5);
-  }
 
-  state = { rabbits: [] };
+    this.tick = setInterval(() => this.setSnack(), 5000);
+    }
+    
+    state = { rabbits: [], hasSnack: Math.random() > 0.95 };
+    
+    componentWillUnmount() {
+      clearInterval(this.tick); 
+    }
+    
+    setSnack = () => {
+      if(!this.state.hasSnack) {
+        this.setState({
+          hasSnack: Math.random() > 0.9
+        })  
+      }
+    }
 
   isOccupied = rabbits => {
     const presentRabbits = rabbits
     .filter(rabbit => rabbit.position === `${this.x},${this.y}`);
-    if(this.hasSnack && presentRabbits[0]) {
-      presentRabbits[0].fitness = 100;
-      this.hasSnack = false;
+    if(this.state.hasSnack && presentRabbits[0]) {
+      presentRabbits[0].fitness = Math.min(presentRabbits[0].fitness + 30, 100);
+      this.setState({
+        hasSnack: false
+      })
     }
     return presentRabbits;
   };
@@ -27,13 +42,12 @@ export default class Cell extends Component {
   };
 
   render() {
-
     return (
       <FarmContext.Consumer>
         {({ rabbits, carrots, updatePosition, updateDecay, fight }) => {
           return (
             <div className="cell">
-            {this.hasSnack && <span className="snack">🍔</span>}
+            {this.state.hasSnack && <span className="snack">🍔</span>}
               {this.isOccupied(rabbits).map(rabbit => {
                 return (
                   <Rabbit
