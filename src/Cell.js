@@ -8,7 +8,7 @@ export default class Cell extends Component {
     this.x = props.position.x;
     this.y = props.position.y;
 
-    this.tick = setInterval(() => this.setSnack(), 5000);
+    this.tick = setInterval(() => this.setSnack(), 2000);
     }
     
     state = { rabbits: [], hasSnack: Math.random() > 0.95 };
@@ -20,7 +20,7 @@ export default class Cell extends Component {
     setSnack = () => {
       if(!this.state.hasSnack) {
         this.setState({
-          hasSnack: Math.random() > 0.9
+          hasSnack: Math.random() > 0.99
         })  
       }
     }

@@ -4,6 +4,7 @@ import { rabbits } from '../utils/rabbitGenerator';
 import ReactModal from 'react-modal';
 const defaultState = {
   rabbits: [],
+  fightingRabbits: [],
   carrots: 0,
   fight: false
 };
@@ -22,34 +23,40 @@ export default class FarmStore extends Component {
   };
 
   updatePosition = (position, id) => {
-    const rabbits = this.state.rabbits;
+    const rabbits = [...this.state.rabbits];
     const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
     const index = this.state.rabbits.indexOf(rabbit);
     const newPos = this.getNewPosition(position);
     rabbit.position = `${newPos[0]},${newPos[1]}`;
     rabbits[index] = rabbit;
-    this.checkColission(rabbits);
+    const collidingRabbits = this.collidingRabbits(rabbits);
     this.setState({ rabbits });
+    if (collidingRabbits.length > 1) {
+      this.handleColission(collidingRabbits);
+    }
   };
 
-  checkColission(rabbits) {
-    const positions = {};
+  handleColission(collidingRabbits) {
+    const looser = this.decideLooser(collidingRabbits);
+    this.setState({ loosingRabbit: looser, fightingRabbits: collidingRabbits });
+    this.startFight();
+    this.killRabbit(looser);
+  }
+
+  collidingRabbits(rabbits) {
+    const [positions, collidingRabbits] = [{}, []];
     rabbits.forEach(rabbit => {
       if (!positions[rabbit.position]) {
         positions[rabbit.position] = rabbit;
       } else {
-        this.startFight();
-        const looser = this.decideLooser(
-          positions[rabbit.position],
-          rabbit
-        );
-        this.killRabbit(looser);
+        collidingRabbits.push(positions[rabbit.position], rabbit);
       }
     });
+    return collidingRabbits;
   }
 
-  decideLooser(rabbit1, rabbit2) {
-    return Math.random() < 0.5 ? rabbit1 : rabbit2;
+  decideLooser(collidingRabbits) {
+    return Math.random() < 0.5 ? collidingRabbits[0] : collidingRabbits[1];
   }
 
   getNewPosition(position) {
@@ -122,7 +129,7 @@ export default class FarmStore extends Component {
   };
 
   stopFight = () => {
-    this.setState({ fight: false });
+    this.setState({ fight: false, fightingRabbits: [], loosingRabbit: null });
   };
 
   initiateFightTest = () => {
@@ -149,10 +156,19 @@ export default class FarmStore extends Component {
           ariaHideApp={false}
         >
           <h1>MOORTAL KOMBAT</h1>
-          <h2>current rabbits in simulation:</h2>
-          {this.state.rabbits.map(rabbit => {
-            return <h3 key={rabbit.id}>{rabbit.name}</h3>;
+          <h2>current fighting rabbits:</h2>
+          {this.state.fightingRabbits.map(rabbit => {
+            return (
+              <div>
+                <h3 key={rabbit.id}>{rabbit.name}</h3>
+              </div>
+            );
           })}
+          <br/>
+          <hr/>
+          <h3>
+            {this.state.loosingRabbit && this.state.loosingRabbit.name} will die
+          </h3>
         </ReactModal>
         <button className="btn-legg-til" onClick={this.addRabbit}>
           Legg til
