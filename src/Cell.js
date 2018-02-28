@@ -12,7 +12,7 @@ export default class Cell extends Component {
     }
     
     state = { rabbits: [], hasSnack: Math.random() > 0.95 };
-    
+
     componentWillUnmount() {
       clearInterval(this.tick); 
     }
@@ -21,7 +21,7 @@ export default class Cell extends Component {
       if(!this.state.hasSnack) {
         this.setState({
           hasSnack: Math.random() > 0.99
-        })  
+        })
       }
     }
 

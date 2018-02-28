@@ -4,7 +4,7 @@ import { rabbits } from '../utils/rabbitGenerator';
 import ReactModal from 'react-modal';
 const defaultState = {
   rabbits: [],
-  fightingRabbits: [],
+  events: [],
   carrots: 0,
   fight: false
 };
@@ -37,10 +37,15 @@ export default class FarmStore extends Component {
   };
 
   handleColission(collidingRabbits) {
-    const looser = this.decideLooser(collidingRabbits);
-    this.setState({ loosingRabbit: looser, fightingRabbits: collidingRabbits });
-    this.startFight();
+    const [winner, looser] = this.decideOutcome(collidingRabbits);
+    const events = [...this.state.events];
+    const event = this.generateEvent(winner, looser, 'fight');
+    this.setState({ events: [...events, event] });
     this.killRabbit(looser);
+  }
+
+  generateEvent(winner, looser, type) {
+    return { winner, looser, type, timestamp: Date.now() };
   }
 
   collidingRabbits(rabbits) {
@@ -55,8 +60,9 @@ export default class FarmStore extends Component {
     return collidingRabbits;
   }
 
-  decideLooser(collidingRabbits) {
-    return Math.random() < 0.5 ? collidingRabbits[0] : collidingRabbits[1];
+  decideOutcome(collidingRabbits) {
+    const [one, two] = collidingRabbits.map(a => ({...a}));
+    return Math.random() < 0.5 ? [one, two] : [two, one];
   }
 
   getNewPosition(position) {
@@ -123,61 +129,21 @@ export default class FarmStore extends Component {
     this.setState({ rabbits });
   };
 
-  startFight = () => {
-    this.setState({ fight: true });
-    //her må vi ta inn hvem som skal sloss og kanskje sette på state så modalen kan jobbe med infoen?
-  };
-
-  stopFight = () => {
-    this.setState({ fight: false, fightingRabbits: [], loosingRabbit: null });
-  };
-
-  initiateFightTest = () => {
-    setTimeout(() => this.stopFight(), 3000);
-  };
-
   render() {
     return (
       <FarmContext.Provider
         value={{
           rabbits: this.state.rabbits,
-          carrots: this.state.carrots,
           fight: this.state.fight,
+          events: this.state.events,
           updatePosition: this.updatePosition,
           updateDecay: this.updateDecay,
           positions: this.state.positions,
           killRabbit: this.killRabbit
         }}
       >
-        <ReactModal
-          isOpen={this.state.fight}
-          onAfterOpen={this.initiateFightTest}
-          onRequestClose={this.stopFight}
-          ariaHideApp={false}
-        >
-          <h1>MOORTAL KOMBAT</h1>
-          <h2>current fighting rabbits:</h2>
-          {this.state.fightingRabbits.map(rabbit => {
-            return (
-              <div>
-                <h3 key={rabbit.id}>{rabbit.name}</h3>
-              </div>
-            );
-          })}
-          <br/>
-          <hr/>
-          <h3>
-            {this.state.loosingRabbit && this.state.loosingRabbit.name} will die
-          </h3>
-        </ReactModal>
-        <button className="btn-legg-til" onClick={this.addRabbit}>
+        <button className="btn-legg-til top-center" onClick={this.addRabbit}>
           Legg til
-        </button>
-        <button className="btn-legg-til" onClick={this.startFight}>
-          start Fight
-        </button>
-        <button className="btn-legg-til" onClick={this.stopFight}>
-          Stop Fight
         </button>
         {this.props.children}
       </FarmContext.Provider>

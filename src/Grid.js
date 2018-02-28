@@ -28,6 +28,6 @@ export default class Grid extends Component {
   };
 
   render() {
-    return <div className="grid">{this.getGrid(FARM_SIZE)}</div>;
+    return <div className="grid center">{this.getGrid(FARM_SIZE)}</div>;
   }
 }
