@@ -16,16 +16,18 @@ export default class FarmStore extends Component {
   rabbitGenerator = rabbits();
 
   addRabbit = () => {
-    const rabbits = this.state.rabbits;
+    const rabbits = [...this.state.rabbits];
     const rabbit = this.rabbitGenerator.next().value;
 
     this.setState({ rabbits: [...rabbits, rabbit] });
   };
 
   updatePosition = (position, id) => {
+    //her er det masse bugs
+  
     const rabbits = [...this.state.rabbits];
-    const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
-    const index = this.state.rabbits.indexOf(rabbit);
+    const rabbit = rabbits.find(rabbit => rabbit.id === id);
+    const index = rabbits.indexOf(rabbit);
     const newPos = this.getNewPosition(position);
     rabbit.position = `${newPos[0]},${newPos[1]}`;
     rabbits[index] = rabbit;
@@ -103,9 +105,9 @@ export default class FarmStore extends Component {
   }
 
   updateDecay = id => {
-    const rabbits = this.state.rabbits;
-    const rabbit = this.state.rabbits.find(rabbit => rabbit.id === id);
-    const index = this.state.rabbits.indexOf(rabbit);
+    const rabbits = [...this.state.rabbits];
+    const rabbit = rabbits.find(rabbit => rabbit.id === id);
+    const index = rabbits.indexOf(rabbit);
     if (rabbit) {
       rabbit.fitness -= 1;
 
@@ -123,7 +125,7 @@ export default class FarmStore extends Component {
   };
 
   killRabbit = rabbit => {
-    const rabbits = this.state.rabbits;
+    const rabbits = [...this.state.rabbits];
     var indexOfDeadRabbit = rabbits.indexOf(rabbit);
     rabbits.splice(indexOfDeadRabbit, 1);
     this.setState({ rabbits });
