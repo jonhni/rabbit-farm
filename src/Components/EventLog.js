@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { FarmContext } from '../Context/FarmContext';
-
+import Chat from './Chat';
 export default class EventLog extends Component {
   render() {
     return (
       <FarmContext.Consumer>
         {({ events }) => {
+          
           return (
             <div className="center-left">
-              {events.map(event => {
+            {/* <div style={{ width: '400px' }}> */}
+            <Chat
+              userName={'rara'}
+              events={events}
+              getConversation={() => events}
+              saveConversation={() => null}
+            />
+            {/* </div> */}
+              {/* {events.map(event => {
                 return (
                   <div key={event.timestamp} className="rabbit-card">
                     <h3>{`${event.winner.name} 🐐 ${event.winner.fitness} ❤️ 
@@ -17,7 +26,7 @@ export default class EventLog extends Component {
                     } ❤️ at ${event.timestamp}`}</h3>
                   </div>
                 );
-              })}
+              })} */}
             </div>
           );
         }}

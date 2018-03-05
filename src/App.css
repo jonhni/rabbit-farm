@@ -26,3 +26,73 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+
+.scroll {
+  background-color: red;
+  transform: scale(1,-1);
+}
+.chatMessageContainer {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 1px;
+  display:flex;
+  flex-direction:column;
+}
+
+.ownMessage {
+  transform: scale(1,-1);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  text-align: right;
+  padding-left: 0;
+  display: block;
+} 
+
+.username {
+  margin-top: 0.7em;
+  display: block;
+  font-size: 0.7em; 
+}
+
+.ownText {
+  bottom: 0;
+  right: 0;
+  background-color: #1769ff;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.theirText {
+  background-color: #c7c3c1;
+  color: black;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.theirMessage {
+  transform: scale(1,-1);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  text-align: left;
+  padding-left: 0;
+  display: block;
+}
+
+.sendMessage {
+  margin-top: 5px;
+  text-align: right;
+}
+
+.chatInput {
+  margin: 10px;
+}
+
+.theirMessage {
+  color: 'red';
+  left: 0;
+}
