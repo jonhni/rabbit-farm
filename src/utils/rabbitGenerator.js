@@ -12,9 +12,7 @@ export function* rabbits() {
       fitness: Math.floor(Math.random() * 100),
       gender: Math.round(Math.random()),
       fightsWon: 0,
-      rabbitsAbsorbed: 0,
       strength: 10,
-      charisma: 10,
     };
 
     yield rabbit;

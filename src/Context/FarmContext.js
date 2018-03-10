@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { FARM_SIZE } from '../constants';
 import { rabbits } from '../utils/rabbitGenerator';
-import ReactModal from 'react-modal';
+import {
+  decideOutcome,
+  generateEvent,
+  determineCollidingRabbits,
+  getNewPosition
+} from '../utils/eventHelpers';
+import { Subject } from 'rxjs/Subject';
+
 const defaultState = {
   rabbits: [],
-  events: [],
-  carrots: 0,
-  fight: false
+  events: []
 };
+const eventStream = new Subject();
 
 export const FarmContext = React.createContext(defaultState);
 
@@ -22,16 +27,21 @@ export default class FarmStore extends Component {
     this.setState({ rabbits: [...rabbits, rabbit] });
   };
 
+  subscription = eventStream.subscribe(({ position, id }) =>
+    this.updatePosition(position, id)
+  );
+
+  pushEvent = event => eventStream.next(event);
+
   updatePosition = (position, id) => {
-    //her er det masse bugs
-  
-    const rabbits = [...this.state.rabbits];
-    const rabbit = rabbits.find(rabbit => rabbit.id === id);
-    const index = rabbits.indexOf(rabbit);
-    const newPos = this.getNewPosition(position);
-    rabbit.position = `${newPos[0]},${newPos[1]}`;
-    rabbits[index] = rabbit;
-    const collidingRabbits = this.collidingRabbits(rabbits);
+    const newPos = getNewPosition(position);
+    const rabbits = [...this.state.rabbits].map(
+      rabbit =>
+        rabbit.id === id
+          ? { ...rabbit, position: `${newPos[0]},${newPos[1]}` }
+          : rabbit
+    );
+    const collidingRabbits = determineCollidingRabbits(rabbits);
     this.setState({ rabbits });
     if (collidingRabbits.length > 1) {
       this.handleColission(collidingRabbits);
@@ -39,95 +49,29 @@ export default class FarmStore extends Component {
   };
 
   handleColission(collidingRabbits) {
-    const [winner, looser] = this.decideOutcome(collidingRabbits);
+    const [winner, looser] = decideOutcome(collidingRabbits);
     const events = [...this.state.events];
-    const event = this.generateEvent(winner, looser, 'fight');
+    const event = generateEvent(winner, looser, 'fight');
     this.setState({ events: [...events, event] });
     this.killRabbit(looser);
   }
 
-  generateEvent(winner, looser, type) {
-    return { winner, looser, type, timestamp: Date.now() };
-  }
-
-  collidingRabbits(rabbits) {
-    const [positions, collidingRabbits] = [{}, []];
-    rabbits.forEach(rabbit => {
-      if (!positions[rabbit.position]) {
-        positions[rabbit.position] = rabbit;
-      } else {
-        collidingRabbits.push(positions[rabbit.position], rabbit);
-      }
-    });
-    return collidingRabbits;
-  }
-
-  decideOutcome(collidingRabbits) {
-    const [one, two] = collidingRabbits.map(a => ({...a}));
-    return Math.random() < 0.5 ? [one, two] : [two, one];
-  }
-
-  getNewPosition(position) {
-    const move = Math.floor(Math.random() * 4);
-    const POSSIBLE_MOVES = ['N', 'E', 'S', 'W'];
-    const direction = POSSIBLE_MOVES[move];
-    if (direction === 'N') {
-      // Out of bounds north, move south
-      if (position[0] === 0) {
-        return [1, position[1]];
-      }
-      return [position[0] - 1, position[1]];
-    }
-
-    if (direction === 'E') {
-      // Out of bounds east, move west
-      if (position[1] === FARM_SIZE) {
-        return [position[0], position[1] - 1];
-      }
-      return [position[0], position[1] + 1];
-    }
-
-    if (direction === 'S') {
-      // Out of bounds south, move north
-      if (position[0] === FARM_SIZE) {
-        return [FARM_SIZE - 1, position[1]];
-      }
-      return [position[0] + 1, position[1]];
-    }
-
-    if (direction === 'W') {
-      if (position[1] === 0) {
-        // Out of bounds west, move east
-        return [position[0], 1];
-      }
-      return [position[0], position[1] - 1];
-    }
-  }
-
   updateDecay = id => {
-    const rabbits = [...this.state.rabbits];
-    const rabbit = rabbits.find(rabbit => rabbit.id === id);
-    const index = rabbits.indexOf(rabbit);
-    if (rabbit) {
-      rabbit.fitness -= 1;
-
-      // Kanskje heller sette en props dying/dead
-      // så kan vi vise en gravstein eller scull i 0.5 sek før den fjernes
-      // ha en funksjon remove dead, som fjerner alle de døde
-
-      if (rabbit.fitness <= 0) {
-        this.killRabbit(rabbit);
-      } else {
-        rabbits[index] = rabbit;
-        this.setState({ rabbits });
-      }
-    }
+    const rabbits = [...this.state.rabbits]
+      .map(
+        rabbit =>
+          rabbit.id === id
+            ? { ...rabbit, fitness: (rabbit.fitness -= 1) }
+            : rabbit
+      )
+      .filter(rabbit => rabbit.fitness > 0);
+    this.setState({ rabbits });
   };
 
   killRabbit = rabbit => {
-    const rabbits = [...this.state.rabbits];
-    var indexOfDeadRabbit = rabbits.indexOf(rabbit);
-    rabbits.splice(indexOfDeadRabbit, 1);
+    const rabbits = [...this.state.rabbits].filter(
+      curr => curr.id !== rabbit.id
+    );
     this.setState({ rabbits });
   };
 
@@ -136,12 +80,10 @@ export default class FarmStore extends Component {
       <FarmContext.Provider
         value={{
           rabbits: this.state.rabbits,
-          fight: this.state.fight,
           events: this.state.events,
-          updatePosition: this.updatePosition,
           updateDecay: this.updateDecay,
           positions: this.state.positions,
-          killRabbit: this.killRabbit
+          pushEvent: this.pushEvent,
         }}
       >
         <button className="btn-legg-til top-center" onClick={this.addRabbit}>

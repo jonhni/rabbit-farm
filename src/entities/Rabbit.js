@@ -6,19 +6,12 @@ class Rabbit extends Component {
     this.state = {
       rabbit: props.rabbit,
       position: props.position,
-      fight: props.fight
     };
   }
 
   componentDidMount() {
-    const tick = setInterval(() => this.updateSimulationState(), 1000);
-    this.setState({ tick, fight: this.props.fight });
-  }
-
-  componentDidUpdate() {
-    if (this.props.fight !== this.state.fight) {
-      this.setState({ fight: this.props.fight });
-    }
+    const tick = setInterval(() => this.updateSimulationState(), 1500);
+    this.setState({ tick });
   }
 
   componentWillUnmount() {
@@ -26,14 +19,12 @@ class Rabbit extends Component {
   }
 
   updateSimulationState() {
-    if (!this.state.fight) {
-      this.move();
-      this.fitnessDecay();
-    }
+    this.move();
+    this.fitnessDecay();
   }
 
   move() {
-    this.props.updatePosition(this.state.position, this.state.rabbit.id);
+    this.props.pushEvent({position: this.state.position, id: this.state.rabbit.id});
   }
 
   fitnessDecay() {
