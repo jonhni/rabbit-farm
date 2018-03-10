@@ -44,7 +44,7 @@ export default class Cell extends Component {
   render() {
     return (
       <FarmContext.Consumer>
-        {({ rabbits, updatePosition, updateDecay, pushEvent }) => {
+        {({ rabbits, updateDecay, pushEvent }) => {
           return (
             <div className="cell">
             {this.state.hasSnack && <span className="snack">🍔</span>}
@@ -54,7 +54,6 @@ export default class Cell extends Component {
                     key={rabbit.id}
                     position={[this.x, this.y]}
                     rabbit={rabbit}
-                    updatePosition={updatePosition}
                     updateDecay={updateDecay}
                     pushEvent={pushEvent}
                   />

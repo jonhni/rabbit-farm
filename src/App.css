@@ -27,8 +27,6 @@
   to { transform: rotate(360deg); }
 }
 
-
-
 .scroll {
   background-color: red;
   transform: scale(1,-1);
