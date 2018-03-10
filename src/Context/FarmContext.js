@@ -52,9 +52,20 @@ export default class FarmStore extends Component {
     const [winner, looser] = decideOutcome(collidingRabbits);
     const events = [...this.state.events];
     const event = generateEvent(winner, looser, 'fight');
-    this.setState({ events: [...events, event] });
+    this.setState({ events: [event, ...events] });
+    this.updateWins(winner);
     this.killRabbit(looser);
   }
+
+  updateWins = rabbit => {
+    const rabbits = [...this.state.rabbits].map(
+      rab =>
+        rab.id === rabbit.id
+          ? { ...rabbit, fightsWon: (rabbit.fightsWon += 1) }
+          : rab
+    );
+    this.setState({ rabbits });
+  };
 
   updateDecay = id => {
     const rabbits = [...this.state.rabbits]
@@ -83,7 +94,7 @@ export default class FarmStore extends Component {
           events: this.state.events,
           updateDecay: this.updateDecay,
           positions: this.state.positions,
-          pushEvent: this.pushEvent,
+          pushEvent: this.pushEvent
         }}
       >
         <button className="btn-legg-til top-center" onClick={this.addRabbit}>

@@ -2,7 +2,7 @@ import { FARM_SIZE } from '../constants';
 
 export function decideOutcome(collidingRabbits) {
   const [one, two] = collidingRabbits.map(a => ({ ...a }));
-  return Math.random() < 0.5 ? [one, two] : [two, one];
+  return Math.random() < 0.5  ? [one, two] : [two, one];
 }
 
 export function generateEvent(winner, looser, type) {

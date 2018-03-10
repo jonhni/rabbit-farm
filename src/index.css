@@ -28,9 +28,17 @@ body {
   padding: 10px 20px;
   width: 200px;
   margin-bottom: 20px;
+  margin-left: 20px;
   border: 2px solid papayawhip;
   border-radius: 10px;
   box-shadow: 5px 7px 7px tomato;
+}
+
+.event-card {
+  clear: both;
+  padding: 20px;
+  border-radius: 30px;
+  margin-bottom: 2px;
 }
 
 .container {

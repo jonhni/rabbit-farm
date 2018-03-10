@@ -6,27 +6,16 @@ export default class EventLog extends Component {
     return (
       <FarmContext.Consumer>
         {({ events }) => {
-          
           return (
             <div className="center-left">
-            {/* <div style={{ width: '400px' }}> */}
-            <Chat
-              userName={'rara'}
-              events={events}
-              getConversation={() => events}
-              saveConversation={() => null}
-            />
-            {/* </div> */}
-              {/* {events.map(event => {
+              {events.map(event => {
                 return (
-                  <div key={event.timestamp} className="rabbit-card">
-                    <h3>{`${event.winner.name} 🐐 ${event.winner.fitness} ❤️ 
-                        killed ${event.looser.name} 🐐 ${
-                      event.looser.fitness
-                    } ❤️ at ${event.timestamp}`}</h3>
+                  <div key={event.timestamp} className="event-card">
+                    <h3>{`${event.winner.name} 🐐 ️ 
+                        defeated ${event.looser.name} 🐐`}</h3>
                   </div>
                 );
-              })} */}
+              })}
             </div>
           );
         }}

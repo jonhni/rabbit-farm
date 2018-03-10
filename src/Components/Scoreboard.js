@@ -8,13 +8,18 @@ export default class Scoreboard extends Component {
         {({ rabbits, carrots, updatePosition, updateDecay, fight }) => {
           return (
             <div className="center-right">
-              {rabbits.map(rabbit => {
-                return (
-                  <div key={rabbit.id} className="rabbit-card">
-                    <h3>{`${rabbit.name} 🐐`}</h3>
-                  </div>
-                );
-              })}
+              {rabbits
+                .sort((a, b) => {
+                  return b.fightsWon - a.fightsWon > 0;
+                })
+                .map(rabbit => {
+                  return (
+                    <div key={rabbit.id} className="rabbit-card">
+                      <h3>{`${rabbit.name} 🐐 ${rabbit.fitness} ❤️`}</h3>
+                      <p>{`Fights won: ${rabbit.fightsWon}`}</p>
+                    </div>
+                  );
+                })}
             </div>
           );
         }}
