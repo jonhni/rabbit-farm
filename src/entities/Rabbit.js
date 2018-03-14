@@ -10,7 +10,7 @@ class Rabbit extends Component {
   }
 
   componentDidMount() {
-    const tick = setInterval(() => this.updateSimulationState(), 1500);
+    const tick = setInterval(() => this.updateSimulationState(), 1000);
     this.setState({ tick });
   }
 
@@ -19,16 +19,11 @@ class Rabbit extends Component {
   }
 
   updateSimulationState() {
-    this.move();
-    this.fitnessDecay();
+    this.handleTick();
   }
 
-  move() {
+  handleTick() {
     this.props.pushEvent({position: this.state.position, id: this.state.rabbit.id});
-  }
-
-  fitnessDecay() {
-    this.props.updateDecay(this.state.rabbit.id);
   }
 
   render() {
