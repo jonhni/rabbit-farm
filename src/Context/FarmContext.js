@@ -29,7 +29,7 @@ export default class FarmStore extends Component {
   addRabbit = () => {
     const rabbits = [...this.state.rabbits];
     const rabbit = this.rabbitGenerator.next().value;
-    this.setState({ rabbits: [...rabbits, rabbit] });
+    this.setState(() => ({ rabbits: [...rabbits, rabbit] }));
   };
 
   handleTick = (position, id) => {
@@ -37,7 +37,7 @@ export default class FarmStore extends Component {
     rabbits = this.checkCollision(
       this.updatePositionAndFitness(position, id, rabbits)
     );
-    this.setState({ rabbits });
+    this.setState(() => ({ rabbits }));
   };
 
   updatePositionAndFitness = (position, id, rabbits) => {
@@ -77,7 +77,7 @@ export default class FarmStore extends Component {
     const [winner, looser] = decideOutcome(collidingRabbits);
     const events = [...this.state.events];
     const event = generateEvent(winner, looser, 'fight');
-    this.setState({ events: [event, ...events] });
+    this.setState(() => ({ events: [event, ...events] }));
     return [winner, looser];
   };
 
